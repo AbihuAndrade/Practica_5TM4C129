@@ -38,9 +38,9 @@ extern void Configura_Reg_ADC0(void)
     //Pag 1091 Este registro (ADCEMUX) selecciona el evento que activa la conversión (trigger)
     ADC0->EMUX  = (0x0000);
     //Pag 1129 Este registro (ADCSSMUX2) define las entradas analógicas con el canal y secuenciador seleccionado
-    ADC0->SSMUX2 = 0x0089;
+    ADC0->SSMUX2 = 0x0080;
     //pag 868 Este registro (ADCSSCTL2), configura el bit de control de muestreo y la interrupción
-    ADC0->SSCTL2 = (1<<6) | (1<<5) ;
+    ADC0->SSCTL2 = (1<<2) | (1<<1) ;
     /* Enable ADC Interrupt */
     ADC0->IM |= (1<<2); /* Unmask ADC0 sequence 2 interrupt pag 1082*/
     //NVIC_PRI4_R = (NVIC_PRI4_R & 0xFFFFFF00) | 0x00000020;
@@ -56,8 +56,8 @@ extern void ADC0_InSeq2(uint16_t *Result,uint16_t *duty){
        while((ADC0->RIS&0x04)==0){}; // espera al convertidor
        Result[1] = ADC0->SSFIFO2&0xFFF; //  Leer  el resultado almacenado en la pila2
        Result[0] = ADC0->SSFIFO2&0xFFF;
-       duty[0] = (Result[0]*20000)/4096;
-       duty[1] = (Result[1]*20000)/4096;
+       duty[0] =(Result[0]*37500)/4096;
+       duty[1] = (Result[1]*25000)/4096;
        ADC0->ISC = 0x0004;  //Conversion finalizada
 
 }
