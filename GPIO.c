@@ -8,14 +8,17 @@ extern void Configurar_GPIO(void)
  //   GPIO_PORTB_AHB_LOCK_R = 0x4C4F434B;
  //   GPIO_PORTB_AHB_CR_R = (1<<3);
 
-    //Salidas
+    //Habilitamos los piertos de las salidas
+    //Usaremos los puertos F, N y B
     GPIOF_AHB->DIR |= (1<<0) | (1<<4);
     GPION->DIR |= (1<<0) | (1<<1);
     GPIOB_AHB->DIR |= (1<<3);
-    //Entradas
+
+    //Nuestros puertos de las entradas serán los puertos J
     GPIOJ_AHB->DIR |= (0<<1) | (0<<0);
     GPIOJ_AHB->PUR =  (1<<1) | (1<<0);
-    //Paso 3
+    
+    //Activamos el modo alternativo analógico de cada uno de estos pines
     GPIOJ_AHB->AFSEL |= 0x00;
     GPION->AFSEL |= 0x00;
     GPIOF_AHB->AFSEL |= 0x00;
@@ -26,6 +29,7 @@ extern void Configurar_GPIO(void)
     GPIOF_AHB->PCTL |= 0x00;
     GPIOB_AHB->PCTL |= 0x00;
 
+    //Desactivamos el modo digital de los pines que usaremos
     GPIOF_AHB->DEN |= (1<<0) | (1<<4);
     GPION->DEN |= (1<<0) | (1<<1);
     GPIOJ_AHB->DEN |= (1<<1) | (1<<0);
